@@ -8,4 +8,4 @@
 
 ## Basic of Javascript
 
-Build e Todo App using Javascript
+Build a Todo App using Javascript and Deploy to Netlify
