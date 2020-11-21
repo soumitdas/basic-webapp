@@ -1,0 +1,6 @@
+<parent>
+    <child1 weight="60">
+        <grand-child></grand-child>
+    </child1>
+    <child2 height="50" />
+</parent>

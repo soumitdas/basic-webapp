@@ -7,3 +7,7 @@
 1. JavaScript
 
 ## Topic1 - About HTML aka (Hyper Text Markup Language)
+
+## Logs
+
+1. Lec1 Updated - Soumit
