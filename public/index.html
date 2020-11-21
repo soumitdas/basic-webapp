@@ -2,35 +2,111 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Learn Javascript</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>📝 TODO App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
 
 <body>
-    <h1>My from</h1>
-    <form id="myform">
-        <label for="name">
-            <input type="text" name="myname" placeholder="John Corner">
-        </label>
-        <br>
-        <button>Submit</button>
-    </form>
-    <div id="result"></div>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">
+          Just Another TODO App
+        </h1>
+        <h2 class="subtitle">
+          🔥 Built with ❤️ by Soumit 🔥
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <section class="section">
+      <form class="block" id="myform">
+        <div class="field is-grouped">
+          <p class="control is-expanded">
+            <input class="input is-medium" type="text" name="todo" placeholder="Enter the task">
+          </p>
+          <p class="control">
+            <button type="submit" class="button is-medium is-info">Add</button>
+          </p>
+        </div>
+      </form>
+      <div id="todos" class="block is-size-4">
 
-    <script>
-        const form = document.getElementById("myform")
-        const printHeading = document.createElement("h1")
+      </div>
+    </section>
+  </div>
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault()
-            //console.log(event)
-            printHeading.innerText = event.target.myname.value
-            document.getElementById("result").appendChild(printHeading)
-        })
 
-    </script>
+  <script>
+    const form = document.getElementById("myform")
+    const todoList = document.getElementById("todos")
+
+    /*Check if already in localstorage then store that else blank array [] */
+    let todos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
+
+    let timeout;
+
+    /*Check if todos already in the local storage */
+    const handleTodoClick = e => {
+      /*For the second time click */
+      if (e.target.nodeName === "S") {
+        window.clearTimeout(timeout)
+        e.target.parentNode.innerHTML = e.target.innerText
+        e.target.remove()
+        return
+      }
+      /*For the every first time click */
+      e.target.innerHTML = `<s>${e.target.innerText}</s>`
+      timeout = setTimeout(() => {
+        e.target.remove()
+        todos = todos.filter(todo => todo !== e.target.innerText)
+        saveTodos()
+        alert("Completed Todo deleted")
+      }, 4000)
+
+    }
+
+    /*Run Firsttime to render stored Todos */
+    if (todos !== undefined && todos instanceof Array) {
+      todos.forEach(todo => {
+        const todoDiv = document.createElement("div")
+        todoDiv.classList.add("notification", "is-danger")
+        todoDiv.onclick = handleTodoClick
+        todoDiv.innerText = todo
+        todoList.appendChild(todoDiv)
+
+      })
+    }
+
+    const saveTodos = () => localStorage.setItem("todos", JSON.stringify(todos))
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault()
+      if (!event.target.todo.value) {
+        alert("You cannot enter blank TODO")
+        return
+      }
+      const todoDiv = document.createElement("div")
+      todoDiv.classList.add("notification", "is-danger")
+      todoDiv.onclick = handleTodoClick
+      todoDiv.innerText = event.target.todo.value
+
+
+      // const todoLi = document.createElement("li")
+      // todoLi.onclick = handleTodoClick
+      // todoLi.innerText = event.target.todo.value
+      todos.push(event.target.todo.value)
+      saveTodos()
+      event.target.todo.value = ""
+      todoList.appendChild(todoDiv)
+
+    })
+
+  </script>
 </body>
 
 </html>

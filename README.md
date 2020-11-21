@@ -7,3 +7,5 @@
 1. JavaScript
 
 ## Basic of Javascript
+
+Build e Todo App using Javascript
